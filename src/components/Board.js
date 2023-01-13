@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import Node from "./Node";
 
-const Board = ({ rows, cols }) => {
+const Board = ({ rows, cols, wallMode }) => {
     const [grid, setGrid] = useState([]);
+    const [isFillDisabled, setIsFillDisabled] = useState(false);
 
     useEffect(() => {
         setGrid(getInitialGrid());
-    }, [setGrid]);
+    }, [setGrid, rows, cols]);
 
     const getInitialGrid = () => {
         const grid = [];
@@ -26,6 +27,8 @@ const Board = ({ rows, cols }) => {
         return {
             col,
             row,
+            isWall: false,
+            isFilled: false,
         };
     };
 
@@ -41,6 +44,11 @@ const Board = ({ rows, cols }) => {
                                         key={nodeIdx}
                                         row={node.row}
                                         col={node.col}
+                                        isWall={node.isWall}
+                                        isFilled={node.isFilled}
+                                        wallMode={wallMode}
+                                        isFillDisabled={isFillDisabled}
+                                        setIsFillDisabled={setIsFillDisabled}
                                     />
                                 );
                             })}
