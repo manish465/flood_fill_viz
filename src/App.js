@@ -13,8 +13,8 @@ const App = () => {
         isFillChecked: false,
         fillPos: { x: -1, y: -1 },
         checked: false,
+        clear: false,
     });
-    const [clearBoard, setClearBoard] = useState(false);
 
     const handleRows = (e) => {
         if (e.target.value < 35) {
@@ -89,21 +89,17 @@ const App = () => {
 
     useEffect(() => {
         setGrid(createGrid());
-    }, [boardDimension]);
-
-    useEffect(() => {
-        if (clearBoard) {
-            setGrid(createGrid());
+        if (cellStatus.clear) {
             setBoardDimension((dim) => ({ ...dim, rows: 15, coloumns: 10 }));
             setCellStatus((node) => ({
                 ...node,
                 isFillMode: false,
                 checked: false,
                 isFillChecked: false,
+                clear: false,
             }));
-            setClearBoard(false);
         }
-    }, [clearBoard]);
+    }, [boardDimension, cellStatus.clear]);
 
     return (
         <main>
@@ -113,7 +109,6 @@ const App = () => {
                 handleColoumns={handleColoumns}
                 cellStatus={cellStatus}
                 setCellStatus={setCellStatus}
-                setClearBoard={setClearBoard}
             />
             <Board grid={grid} handleClick={handleClick} />
         </main>

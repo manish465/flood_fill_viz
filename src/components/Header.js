@@ -1,6 +1,5 @@
 const Header = ({
     boardDimension,
-    setClearBoard,
     handleRows,
     handleColoumns,
     cellStatus,
@@ -8,7 +7,13 @@ const Header = ({
 }) => {
     return (
         <div id="header">
-            <h1 onClick={() => setClearBoard(true)}>FLOOD FILL</h1>
+            <h1
+                onClick={() =>
+                    setCellStatus((cell) => ({ ...cell, clear: true }))
+                }
+            >
+                FLOOD FILL
+            </h1>
             <select
                 disabled={cellStatus.checked}
                 name="algorithm"
@@ -41,7 +46,13 @@ const Header = ({
             >
                 {cellStatus.isFillMode ? "FILL MODE" : "WALL MODE"}
             </button>
-            <button onClick={() => setClearBoard(true)}>CLEAR BOARD</button>
+            <button
+                onClick={() =>
+                    setCellStatus((cell) => ({ ...cell, clear: true }))
+                }
+            >
+                CLEAR BOARD
+            </button>
             <button>START</button>
         </div>
     );
