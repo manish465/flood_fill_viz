@@ -27,8 +27,8 @@ const Header = ({
                     setColoumns(e.target.value < 20 ? e.target.value : 20)
                 }
             />
-            <button onClick={() => setFillMode(false)}>
-                {fillMode ? "WALL MODE" : "FILL MODE"}
+            <button onClick={() => setFillMode(true)}>
+                {fillMode ? "FILL MODE" : "WALL MODE"}
             </button>
             <button>START</button>
         </div>

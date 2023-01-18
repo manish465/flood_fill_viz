@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Cell from "./Cell";
 
-const Board = ({ rows, coloumns, fillMode }) => {
+const Board = ({ rows, coloumns, fillOnce, setFillOnce, fillMode }) => {
     const [grid, setGrid] = useState([]);
 
     const createGrid = (rows, coloumns) => {
@@ -26,9 +26,14 @@ const Board = ({ rows, coloumns, fillMode }) => {
         const newGrid = grid.map((rowArr, i) =>
             rowArr.map((cell, j) => {
                 if (i === row && j === col) {
-                    return fillMode
-                        ? { ...cell, isWall: true, isFill: false }
-                        : { ...cell, isWall: false, isFill: true };
+                    if (fillMode) {
+                        if (fillOnce === 1) {
+                            setFillOnce((fillTimes) => fillTimes - 1);
+                            return { ...cell, isFill: true, isWall: false };
+                        }
+                    } else {
+                        return { ...cell, isFill: false, isWall: true };
+                    }
                 }
                 return cell;
             })

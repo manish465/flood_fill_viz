@@ -5,7 +5,8 @@ import Header from "./components/Header";
 const App = () => {
     const [rows, setRows] = useState(10);
     const [coloumns, setColoumns] = useState(10);
-    const [fillMode, setFillMode] = useState(true);
+    const [fillMode, setFillMode] = useState(false);
+    const [fillOnce, setFillOnce] = useState(1);
 
     return (
         <main>
@@ -17,7 +18,13 @@ const App = () => {
                 fillMode={fillMode}
                 setFillMode={setFillMode}
             />
-            <Board rows={rows} coloumns={coloumns} fillMode={fillMode} />
+            <Board
+                rows={rows}
+                coloumns={coloumns}
+                fillOnce={fillOnce}
+                setFillOnce={setFillOnce}
+                fillMode={fillMode}
+            />
         </main>
     );
 };
