@@ -17,6 +17,7 @@ const App = () => {
                 setColoumns={setColoumns}
                 fillMode={fillMode}
                 setFillMode={setFillMode}
+                setFillOnce={setFillOnce}
             />
             <Board
                 rows={rows}
