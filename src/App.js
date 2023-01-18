@@ -6,13 +6,12 @@ const App = () => {
     const [grid, setGrid] = useState([]);
     const [rows, setRows] = useState(10);
     const [coloumns, setColoumns] = useState(10);
-    const [fillCheck, setFillCheck] = useState({
+    const [cellStatus, setCellStatus] = useState({
         isFillMode: false,
+        isFillChecked: false,
+        fillPos: { x: -1, y: -1 },
         checked: false,
-        row: -1,
-        col: -1,
     });
-    const [clicked, setClicked] = useState(false);
     const [clearBoard, setClearBoard] = useState(false);
 
     const handleRows = (e) => {
@@ -65,11 +64,11 @@ const App = () => {
         const newGrid = grid.map((rowArr, i) =>
             rowArr.map((cell, j) => {
                 if (i === row && j === col) {
-                    setClicked(true);
-                    if (fillCheck.isFillMode) {
-                        if (!fillCheck.checked) {
-                            setFillCheck((fill) => ({
-                                ...fill,
+                    if (cellStatus.isFillMode) {
+                        if (!cellStatus.checked) {
+                            setCellStatus((node) => ({
+                                ...node,
+                                isFillChecked: true,
                                 checked: true,
                                 row: i,
                                 col: j,
@@ -93,37 +92,28 @@ const App = () => {
     useEffect(() => {
         if (clearBoard) {
             setGrid(createGrid(rows, coloumns));
-            setClicked(false);
             setRows(10);
             setColoumns(10);
-            setFillCheck((fill) => ({
-                ...fill,
+            setCellStatus((node) => ({
+                ...node,
                 isFillMode: false,
                 checked: false,
+                isFillChecked: false,
             }));
             setClearBoard(false);
         }
-    }, [
-        clearBoard,
-        setClicked,
-        setClearBoard,
-        setColoumns,
-        setRows,
-        coloumns,
-        rows,
-    ]);
+    }, [clearBoard, coloumns, rows]);
 
     return (
         <main>
             <Header
                 rows={rows}
                 coloumns={coloumns}
-                clicked={clicked}
                 setClearBoard={setClearBoard}
                 handleRows={handleRows}
                 handleColoumns={handleColoumns}
-                fillCheck={fillCheck}
-                setFillCheck={setFillCheck}
+                cellStatus={cellStatus}
+                setCellStatus={setCellStatus}
             />
             <Board grid={grid} handleClick={handleClick} />
         </main>

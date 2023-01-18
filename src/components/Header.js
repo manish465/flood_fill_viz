@@ -1,22 +1,25 @@
 const Header = ({
     rows,
     coloumns,
-    clicked,
     setClearBoard,
     handleRows,
     handleColoumns,
-    fillCheck,
-    setFillCheck,
+    cellStatus,
+    setCellStatus,
 }) => {
     return (
         <div id="header">
             <h1 onClick={() => setClearBoard(true)}>FLOOD FILL</h1>
-            <select disabled={clicked} name="algorithm" id="algorithm">
+            <select
+                disabled={cellStatus.checked}
+                name="algorithm"
+                id="algorithm"
+            >
                 <option value="dfs">DFS</option>
                 <option value="bfs">BFS</option>
             </select>
             <input
-                disabled={clicked}
+                disabled={cellStatus.checked}
                 type="number"
                 name="rows"
                 id="rows"
@@ -24,7 +27,7 @@ const Header = ({
                 onChange={(e) => handleRows(e)}
             />
             <input
-                disabled={clicked}
+                disabled={cellStatus.checked}
                 type="number"
                 name="coloumns"
                 id="coloumns"
@@ -32,12 +35,12 @@ const Header = ({
                 onChange={(e) => handleColoumns(e)}
             />
             <button
-                disabled={fillCheck.isFillMode}
+                disabled={cellStatus.isFillMode}
                 onClick={() =>
-                    setFillCheck((fill) => ({ ...fill, isFillMode: true }))
+                    setCellStatus((fill) => ({ ...fill, isFillMode: true }))
                 }
             >
-                {fillCheck.isFillMode ? "FILL MODE" : "WALL MODE"}
+                {cellStatus.isFillMode ? "FILL MODE" : "WALL MODE"}
             </button>
             <button onClick={() => setClearBoard(true)}>CLEAR BOARD</button>
             <button>START</button>
