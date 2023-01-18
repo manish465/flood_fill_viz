@@ -1,6 +1,5 @@
 const Header = ({
-    rows,
-    coloumns,
+    boardDimension,
     setClearBoard,
     handleRows,
     handleColoumns,
@@ -23,7 +22,7 @@ const Header = ({
                 type="number"
                 name="rows"
                 id="rows"
-                value={rows}
+                value={boardDimension.rows}
                 onChange={(e) => handleRows(e)}
             />
             <input
@@ -31,7 +30,7 @@ const Header = ({
                 type="number"
                 name="coloumns"
                 id="coloumns"
-                value={coloumns}
+                value={boardDimension.coloumns}
                 onChange={(e) => handleColoumns(e)}
             />
             <button

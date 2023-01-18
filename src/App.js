@@ -4,8 +4,10 @@ import Header from "./components/Header";
 
 const App = () => {
     const [grid, setGrid] = useState([]);
-    const [rows, setRows] = useState(10);
-    const [coloumns, setColoumns] = useState(10);
+    const [boardDimension, setBoardDimension] = useState({
+        rows: 15,
+        coloumns: 10,
+    });
     const [cellStatus, setCellStatus] = useState({
         isFillMode: false,
         isFillChecked: false,
@@ -16,38 +18,38 @@ const App = () => {
 
     const handleRows = (e) => {
         if (e.target.value < 35) {
-            setRows(e.target.value);
+            setBoardDimension((dim) => ({ ...dim, rows: e.target.value }));
         } else {
-            setRows(35);
+            setBoardDimension((dim) => ({ ...dim, rows: 35 }));
         }
 
         if (e.target.value > 2) {
-            setRows(e.target.value);
+            setBoardDimension((dim) => ({ ...dim, rows: e.target.value }));
         } else {
-            setRows(2);
+            setBoardDimension((dim) => ({ ...dim, rows: 2 }));
         }
     };
 
     const handleColoumns = (e) => {
         if (e.target.value < 20) {
-            setColoumns(e.target.value);
+            setBoardDimension((dim) => ({ ...dim, coloumns: e.target.value }));
         } else {
-            setColoumns(20);
+            setBoardDimension((dim) => ({ ...dim, coloumns: 20 }));
         }
 
         if (e.target.value > 2) {
-            setColoumns(e.target.value);
+            setBoardDimension((dim) => ({ ...dim, coloumns: e.target.value }));
         } else {
-            setColoumns(2);
+            setBoardDimension((dim) => ({ ...dim, coloumns: 2 }));
         }
     };
 
-    const createGrid = (rows, coloumns) => {
+    const createGrid = () => {
         let initialGrid = [];
 
-        for (let i = 0; i < rows; i++) {
+        for (let i = 0; i < boardDimension.rows; i++) {
             let rowArr = [];
-            for (let j = 0; j < coloumns; j++) {
+            for (let j = 0; j < boardDimension.coloumns; j++) {
                 rowArr.push({
                     isWall: false,
                     isFill: false,
@@ -64,12 +66,12 @@ const App = () => {
         const newGrid = grid.map((rowArr, i) =>
             rowArr.map((cell, j) => {
                 if (i === row && j === col) {
+                    setCellStatus((cell) => ({ ...cell, checked: true }));
                     if (cellStatus.isFillMode) {
-                        if (!cellStatus.checked) {
+                        if (!cellStatus.isFillChecked) {
                             setCellStatus((node) => ({
                                 ...node,
                                 isFillChecked: true,
-                                checked: true,
                                 row: i,
                                 col: j,
                             }));
@@ -86,14 +88,13 @@ const App = () => {
     };
 
     useEffect(() => {
-        setGrid(createGrid(rows, coloumns));
-    }, [rows, coloumns]);
+        setGrid(createGrid());
+    }, [boardDimension]);
 
     useEffect(() => {
         if (clearBoard) {
-            setGrid(createGrid(rows, coloumns));
-            setRows(10);
-            setColoumns(10);
+            setGrid(createGrid());
+            setBoardDimension((dim) => ({ ...dim, rows: 15, coloumns: 10 }));
             setCellStatus((node) => ({
                 ...node,
                 isFillMode: false,
@@ -102,18 +103,17 @@ const App = () => {
             }));
             setClearBoard(false);
         }
-    }, [clearBoard, coloumns, rows]);
+    }, [clearBoard]);
 
     return (
         <main>
             <Header
-                rows={rows}
-                coloumns={coloumns}
-                setClearBoard={setClearBoard}
+                boardDimension={boardDimension}
                 handleRows={handleRows}
                 handleColoumns={handleColoumns}
                 cellStatus={cellStatus}
                 setCellStatus={setCellStatus}
+                setClearBoard={setClearBoard}
             />
             <Board grid={grid} handleClick={handleClick} />
         </main>
