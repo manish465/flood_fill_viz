@@ -7,6 +7,8 @@ const App = () => {
     const [coloumns, setColoumns] = useState(10);
     const [fillMode, setFillMode] = useState(false);
     const [fillOnce, setFillOnce] = useState(1);
+    const [clicked, setClicked] = useState(false);
+    const [clearBoard, setClearBoard] = useState(false);
 
     return (
         <main>
@@ -18,6 +20,10 @@ const App = () => {
                 fillMode={fillMode}
                 setFillMode={setFillMode}
                 setFillOnce={setFillOnce}
+                clicked={clicked}
+                setClicked={setClicked}
+                clearBoard={clearBoard}
+                setClearBoard={setClearBoard}
             />
             <Board
                 rows={rows}
@@ -25,6 +31,9 @@ const App = () => {
                 fillOnce={fillOnce}
                 setFillOnce={setFillOnce}
                 fillMode={fillMode}
+                setClicked={setClicked}
+                clearBoard={clearBoard}
+                setClearBoard={setClearBoard}
             />
         </main>
     );

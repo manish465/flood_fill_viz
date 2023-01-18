@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import Cell from "./Cell";
 
-const Board = ({ rows, coloumns, fillOnce, setFillOnce, fillMode }) => {
+const Board = ({
+    rows,
+    coloumns,
+    fillOnce,
+    setFillOnce,
+    fillMode,
+    setClicked,
+    clearBoard,
+}) => {
     const [grid, setGrid] = useState([]);
 
     const createGrid = (rows, coloumns) => {
@@ -26,6 +34,7 @@ const Board = ({ rows, coloumns, fillOnce, setFillOnce, fillMode }) => {
         const newGrid = grid.map((rowArr, i) =>
             rowArr.map((cell, j) => {
                 if (i === row && j === col) {
+                    setClicked(true);
                     if (fillMode) {
                         if (fillOnce === 1) {
                             setFillOnce((fillTimes) => fillTimes - 1);
@@ -44,6 +53,12 @@ const Board = ({ rows, coloumns, fillOnce, setFillOnce, fillMode }) => {
     useEffect(() => {
         setGrid(createGrid(rows, coloumns));
     }, [rows, coloumns]);
+
+    useEffect(() => {
+        if (clearBoard) {
+            setGrid(createGrid(rows, coloumns));
+        }
+    }, [clearBoard, rows, coloumns]);
 
     return (
         <div className="grid">
