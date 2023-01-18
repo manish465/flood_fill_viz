@@ -6,8 +6,12 @@ const App = () => {
     const [grid, setGrid] = useState([]);
     const [rows, setRows] = useState(10);
     const [coloumns, setColoumns] = useState(10);
-    const [fillMode, setFillMode] = useState(false);
-    const [fillOnce, setFillOnce] = useState(1);
+    const [fillCheck, setFillCheck] = useState({
+        isFillMode: false,
+        checked: false,
+        row: -1,
+        col: -1,
+    });
     const [clicked, setClicked] = useState(false);
     const [clearBoard, setClearBoard] = useState(false);
 
@@ -62,12 +66,14 @@ const App = () => {
             rowArr.map((cell, j) => {
                 if (i === row && j === col) {
                     setClicked(true);
-                    if (fillMode) {
-                        // setFillPosX(i);
-                        // setFillPosY(j);
-                        if (fillOnce === 1) {
-                            setFillOnce((fillTimes) => fillTimes - 1);
-
+                    if (fillCheck.isFillMode) {
+                        if (!fillCheck.checked) {
+                            setFillCheck((fill) => ({
+                                ...fill,
+                                checked: true,
+                                row: i,
+                                col: j,
+                            }));
                             return { ...cell, isFill: true, isWall: false };
                         }
                     } else {
@@ -82,31 +88,27 @@ const App = () => {
 
     useEffect(() => {
         setGrid(createGrid(rows, coloumns));
-    }, [rows, coloumns, setGrid]);
-
-    useEffect(() => {
-        setFillMode(false);
-        setFillOnce(1);
-    }, [rows, coloumns, setFillMode, setFillOnce]);
+    }, [rows, coloumns]);
 
     useEffect(() => {
         if (clearBoard) {
             setGrid(createGrid(rows, coloumns));
             setClicked(false);
-            setFillMode(false);
             setRows(10);
             setColoumns(10);
+            setFillCheck((fill) => ({
+                ...fill,
+                isFillMode: false,
+                checked: false,
+            }));
             setClearBoard(false);
-            setFillOnce(1);
         }
     }, [
         clearBoard,
         setClicked,
-        setFillMode,
         setClearBoard,
         setColoumns,
         setRows,
-        setFillOnce,
         coloumns,
         rows,
     ]);
@@ -116,12 +118,12 @@ const App = () => {
             <Header
                 rows={rows}
                 coloumns={coloumns}
-                fillMode={fillMode}
-                setFillMode={setFillMode}
                 clicked={clicked}
                 setClearBoard={setClearBoard}
                 handleRows={handleRows}
                 handleColoumns={handleColoumns}
+                fillCheck={fillCheck}
+                setFillCheck={setFillCheck}
             />
             <Board grid={grid} handleClick={handleClick} />
         </main>

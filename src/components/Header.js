@@ -1,12 +1,12 @@
 const Header = ({
     rows,
     coloumns,
-    fillMode,
-    setFillMode,
     clicked,
     setClearBoard,
     handleRows,
     handleColoumns,
+    fillCheck,
+    setFillCheck,
 }) => {
     return (
         <div id="header">
@@ -31,8 +31,13 @@ const Header = ({
                 value={coloumns}
                 onChange={(e) => handleColoumns(e)}
             />
-            <button disabled={fillMode} onClick={() => setFillMode(true)}>
-                {fillMode ? "FILL MODE" : "WALL MODE"}
+            <button
+                disabled={fillCheck.isFillMode}
+                onClick={() =>
+                    setFillCheck((fill) => ({ ...fill, isFillMode: true }))
+                }
+            >
+                {fillCheck.isFillMode ? "FILL MODE" : "WALL MODE"}
             </button>
             <button onClick={() => setClearBoard(true)}>CLEAR BOARD</button>
             <button>START</button>
