@@ -26,7 +26,14 @@ const Header = ({
             setColoumns(10);
             setClearBoard(false);
         }
-    }, [clearBoard, setClicked, setFillMode]);
+    }, [
+        clearBoard,
+        setClicked,
+        setFillMode,
+        setClearBoard,
+        setColoumns,
+        setRows,
+    ]);
 
     const handleRows = (e) => {
         if (e.target.value < 35) {
