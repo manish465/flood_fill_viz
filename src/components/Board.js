@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Cell from "./Cell";
 
-const Board = ({ rows, coloumns }) => {
+const Board = ({ rows, coloumns, fillMode }) => {
     const [grid, setGrid] = useState([]);
 
     const createGrid = (rows, coloumns) => {
@@ -26,7 +26,9 @@ const Board = ({ rows, coloumns }) => {
         const newGrid = grid.map((rowArr, i) =>
             rowArr.map((cell, j) => {
                 if (i === row && j === col) {
-                    return { ...cell, isWall: true };
+                    return fillMode
+                        ? { ...cell, isWall: true, isFill: false }
+                        : { ...cell, isWall: false, isFill: true };
                 }
                 return cell;
             })

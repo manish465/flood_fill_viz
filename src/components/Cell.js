@@ -1,7 +1,7 @@
 const Cell = ({ handleClick, node }) => {
     const { isWall, isFill, position } = node;
 
-    const classes = `node ${isWall ? "wall" : ""}`;
+    const classes = `node ${isWall ? "wall" : ""} ${isFill ? "fill" : ""}`;
 
     return (
         <div

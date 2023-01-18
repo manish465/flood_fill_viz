@@ -1,4 +1,11 @@
-const Header = ({ rows, coloumns, setRows, setColoumns }) => {
+const Header = ({
+    rows,
+    coloumns,
+    setRows,
+    setColoumns,
+    fillMode,
+    setFillMode,
+}) => {
     return (
         <div id="header">
             <h1>FLOOD FILL</h1>
@@ -20,7 +27,9 @@ const Header = ({ rows, coloumns, setRows, setColoumns }) => {
                     setColoumns(e.target.value < 20 ? e.target.value : 20)
                 }
             />
-            <button>WALL</button>
+            <button onClick={() => setFillMode(false)}>
+                {fillMode ? "WALL MODE" : "FILL MODE"}
+            </button>
             <button>START</button>
         </div>
     );
