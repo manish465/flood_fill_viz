@@ -4,12 +4,13 @@ const Header = ({
     handleColoumns,
     cellStatus,
     setCellStatus,
+    depthFirstSearch,
 }) => {
     return (
         <div id="header">
             <h1
                 onClick={() =>
-                    setCellStatus((cell) => ({ ...cell, clear: true }))
+                    setCellStatus((node) => ({ ...node, clear: true }))
                 }
             >
                 FLOOD FILL
@@ -53,7 +54,13 @@ const Header = ({
             >
                 CLEAR BOARD
             </button>
-            <button>START</button>
+            <button
+                onClick={() =>
+                    floodFill(cellStatus.fillPos.x, cellStatus.fillPos.y)
+                }
+            >
+                START
+            </button>
         </div>
     );
 };

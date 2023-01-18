@@ -5,8 +5,8 @@ import Header from "./components/Header";
 const App = () => {
     const [grid, setGrid] = useState([]);
     const [boardDimension, setBoardDimension] = useState({
-        rows: 15,
-        coloumns: 10,
+        rows: 5,
+        coloumns: 5,
     });
     const [cellStatus, setCellStatus] = useState({
         isFillMode: false,
@@ -66,14 +66,13 @@ const App = () => {
         const newGrid = grid.map((rowArr, i) =>
             rowArr.map((cell, j) => {
                 if (i === row && j === col) {
-                    setCellStatus((cell) => ({ ...cell, checked: true }));
+                    setCellStatus((node) => ({ ...node, checked: true }));
                     if (cellStatus.isFillMode) {
                         if (!cellStatus.isFillChecked) {
                             setCellStatus((node) => ({
                                 ...node,
                                 isFillChecked: true,
-                                row: i,
-                                col: j,
+                                fillPos: { x: i, y: j },
                             }));
                             return { ...cell, isFill: true, isWall: false };
                         }
@@ -90,7 +89,7 @@ const App = () => {
     useEffect(() => {
         setGrid(createGrid());
         if (cellStatus.clear) {
-            setBoardDimension((dim) => ({ ...dim, rows: 15, coloumns: 10 }));
+            setBoardDimension((dim) => ({ ...dim, rows: 5, coloumns: 5 }));
             setCellStatus((node) => ({
                 ...node,
                 isFillMode: false,
@@ -101,6 +100,21 @@ const App = () => {
         }
     }, [boardDimension, cellStatus.clear]);
 
+    const handleFill = (x, y) => {
+        const newGrid = grid.map((rowArr, i) =>
+            rowArr.map((cell, j) => {
+                if (i === x && j === y) {
+                    return { ...cell, isFill: true };
+                }
+                return cell;
+            })
+        );
+
+        setGrid(newGrid);
+    };
+
+    const floodFill = (x, y) => {};
+
     return (
         <main>
             <Header
@@ -109,6 +123,7 @@ const App = () => {
                 handleColoumns={handleColoumns}
                 cellStatus={cellStatus}
                 setCellStatus={setCellStatus}
+                depthFirstSearch={depthFirstSearch}
             />
             <Board grid={grid} handleClick={handleClick} />
         </main>
