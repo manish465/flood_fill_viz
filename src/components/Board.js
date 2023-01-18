@@ -25,7 +25,7 @@ const Board = ({ rows, coloumns }) => {
     const handleClick = (row, col) => {
         const newGrid = grid.map((rowArr, i) =>
             rowArr.map((cell, j) => {
-                if ((i === row, j === col)) {
+                if (i === row && j === col) {
                     return { ...cell, isWall: true };
                 }
                 return cell;

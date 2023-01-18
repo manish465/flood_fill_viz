@@ -9,10 +9,28 @@
 
 main {
     #header {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
     }
 
     .grid {
+        display: flex;
+        height: 90vh;
+        justify-content: center;
+        align-items: center;
+
         .node {
+            width: 30px;
+            height: 30px;
+            margin: 10px;
+            background-color: white;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+
+        .wall {
+            background-color: black;
         }
     }
 }
