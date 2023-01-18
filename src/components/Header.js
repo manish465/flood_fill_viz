@@ -1,68 +1,13 @@
-import { useEffect } from "react";
-
 const Header = ({
     rows,
     coloumns,
-    setRows,
-    setColoumns,
     fillMode,
     setFillMode,
-    setFillOnce,
     clicked,
-    setClicked,
-    clearBoard,
     setClearBoard,
+    handleRows,
+    handleColoumns,
 }) => {
-    useEffect(() => {
-        setFillMode(false);
-        setFillOnce(1);
-    }, [rows, coloumns, setFillMode, setFillOnce]);
-
-    useEffect(() => {
-        if (clearBoard) {
-            setClicked(false);
-            setFillMode(false);
-            setRows(10);
-            setColoumns(10);
-            setClearBoard(false);
-        }
-    }, [
-        clearBoard,
-        setClicked,
-        setFillMode,
-        setClearBoard,
-        setColoumns,
-        setRows,
-    ]);
-
-    const handleRows = (e) => {
-        if (e.target.value < 35) {
-            setRows(e.target.value);
-        } else {
-            setRows(35);
-        }
-
-        if (e.target.value > 2) {
-            setRows(e.target.value);
-        } else {
-            setRows(2);
-        }
-    };
-
-    const handleColoumns = (e) => {
-        if (e.target.value < 20) {
-            setColoumns(e.target.value);
-        } else {
-            setColoumns(20);
-        }
-
-        if (e.target.value > 2) {
-            setColoumns(e.target.value);
-        } else {
-            setColoumns(2);
-        }
-    };
-
     return (
         <div id="header">
             <h1 onClick={() => setClearBoard(true)}>FLOOD FILL</h1>
