@@ -16,49 +16,11 @@ const App = () => {
     });
 
     const handleRows = (e) => {
-        if (e.target.value < 35) {
-            setBoardDimension((dim) => ({ ...dim, rows: e.target.value }));
-        } else {
-            setBoardDimension((dim) => ({ ...dim, rows: 35 }));
-        }
-
-        if (e.target.value > 2) {
-            setBoardDimension((dim) => ({ ...dim, rows: e.target.value }));
-        } else {
-            setBoardDimension((dim) => ({ ...dim, rows: 2 }));
-        }
+        setBoardDimension((dim) => ({ ...dim, rows: e.target.value }));
     };
 
     const handleColoumns = (e) => {
-        if (e.target.value < 20) {
-            setBoardDimension((dim) => ({ ...dim, coloumns: e.target.value }));
-        } else {
-            setBoardDimension((dim) => ({ ...dim, coloumns: 20 }));
-        }
-
-        if (e.target.value > 2) {
-            setBoardDimension((dim) => ({ ...dim, coloumns: e.target.value }));
-        } else {
-            setBoardDimension((dim) => ({ ...dim, coloumns: 2 }));
-        }
-    };
-
-    const createGrid = () => {
-        let initialGrid = [];
-
-        for (let i = 0; i < boardDimension.rows; i++) {
-            let rowArr = [];
-            for (let j = 0; j < boardDimension.coloumns; j++) {
-                rowArr.push({
-                    isWall: false,
-                    isFill: false,
-                    position: { row: i, col: j },
-                });
-            }
-            initialGrid.push(rowArr);
-        }
-
-        return initialGrid;
+        setBoardDimension((dim) => ({ ...dim, coloumns: e.target.value }));
     };
 
     const insertWall = (row, col) => {
@@ -66,7 +28,7 @@ const App = () => {
             rowArr.map((cell, j) => {
                 if (i === row && j === col) {
                     setCellStatus((node) => ({ ...node, checked: true }));
-                    return { ...cell, isFill: false, isWall: true };
+                    return { ...cell, isWall: true };
                 }
                 return cell;
             })
@@ -75,6 +37,24 @@ const App = () => {
     };
 
     useEffect(() => {
+        const createGrid = () => {
+            let initialGrid = [];
+
+            for (let i = 0; i < boardDimension.rows; i++) {
+                let rowArr = [];
+                for (let j = 0; j < boardDimension.coloumns; j++) {
+                    rowArr.push({
+                        isWall: false,
+                        isFill: false,
+                        position: { row: i, col: j },
+                    });
+                }
+                initialGrid.push(rowArr);
+            }
+
+            return initialGrid;
+        };
+
         setGrid(createGrid());
         if (cellStatus.clear) {
             setBoardDimension((dim) => ({ ...dim, rows: 5, coloumns: 5 }));
@@ -88,7 +68,39 @@ const App = () => {
         }
     }, [boardDimension, cellStatus.clear]);
 
-    const floodFill = (row, col) => {};
+    const handelFill = (x, y) => {
+        const newGrid = grid.map((rowArr, i) =>
+            rowArr.map((cell, j) => {
+                if (i === x && j === y) {
+                    setCellStatus((node) => ({ ...node, checked: true }));
+                    return { isFill: true, ...cell };
+                }
+                return cell;
+            })
+        );
+        setGrid(newGrid);
+        console.log(grid[x][y].isFill);
+    };
+
+    const floodFill = (row, col) => {
+        let stack = [];
+        stack.push({ x: row, y: col });
+
+        while (stack.length > 0) {
+            let current = stack.pop();
+
+            if (
+                current.x >= 0 &&
+                current.x < boardDimension.rows &&
+                current.y >= 0 &&
+                current.y < boardDimension.coloumns
+            ) {
+                console.log("filling", grid[current.x][current.y].isFill);
+                handelFill(current.x, current.y);
+                console.log("filled", grid[current.x][current.y].isFill);
+            }
+        }
+    };
 
     return (
         <main>
