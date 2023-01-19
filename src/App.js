@@ -10,7 +10,6 @@ const App = () => {
     });
     const [cellStatus, setCellStatus] = useState({
         isFillMode: false,
-        isFillChecked: false,
         checked: false,
         clear: false,
     });
@@ -62,7 +61,6 @@ const App = () => {
                 ...node,
                 isFillMode: false,
                 checked: false,
-                isFillChecked: false,
                 clear: false,
             }));
         }
