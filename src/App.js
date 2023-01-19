@@ -67,7 +67,7 @@ const App = () => {
     }, [boardDimension, cellStatus.clear]);
 
     const handelFill = (x, y) => {
-        const newGrid = grid.map((rowArr, i) =>
+        const updatedGrid = grid.map((rowArr, i) =>
             rowArr.map((cell, j) => {
                 if (i === x && j === y) {
                     setCellStatus((node) => ({ ...node, checked: true }));
@@ -76,8 +76,8 @@ const App = () => {
                 return cell;
             })
         );
-        setGrid(newGrid);
-        console.log(grid[x][y].isFill);
+
+        setGrid(updatedGrid);
     };
 
     const floodFill = (row, col) => {
@@ -93,7 +93,7 @@ const App = () => {
                 current.y >= 0 &&
                 current.y < boardDimension.coloumns
             ) {
-                console.log("filling", grid[current.x][current.y].isFill);
+                console.log("filling", current.x, current.y);
                 handelFill(current.x, current.y);
                 console.log("filled", grid[current.x][current.y].isFill);
             }
