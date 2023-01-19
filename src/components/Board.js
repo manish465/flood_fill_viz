@@ -8,6 +8,7 @@ const Board = ({ grid, insertWall, floodFill, cellStatus }) => {
                     {rowArr.map((node, col) => (
                         <Cell
                             key={col}
+                            grid={grid}
                             insertWall={insertWall}
                             node={node}
                             floodFill={floodFill}

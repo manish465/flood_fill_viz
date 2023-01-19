@@ -1,4 +1,4 @@
-const Cell = ({ insertWall, node, floodFill, cellStatus }) => {
+const Cell = ({ grid, insertWall, node, floodFill, cellStatus }) => {
     const classes = `node ${node.isWall ? "wall" : ""} ${
         node.isFill ? "fill" : ""
     }`;
@@ -8,7 +8,8 @@ const Cell = ({ insertWall, node, floodFill, cellStatus }) => {
             className={classes}
             onClick={
                 cellStatus.isFillMode
-                    ? () => floodFill(node.position.row, node.position.col)
+                    ? () =>
+                          floodFill(grid, node.position.row, node.position.col)
                     : () => insertWall(node.position.row, node.position.col)
             }
         ></div>

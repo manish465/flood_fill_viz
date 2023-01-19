@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import Board from "./Board";
 import Header from "./Header";
 
+const initialRows = 10;
+const initialColoumns = 10;
+
 const Main = () => {
     const [grid, setGrid] = useState([]);
     const [boardDimension, setBoardDimension] = useState({
-        rows: 5,
-        coloumns: 5,
+        rows: initialRows,
+        coloumns: initialColoumns,
     });
     const [cellStatus, setCellStatus] = useState({
         isFillMode: false,
@@ -55,7 +58,7 @@ const Main = () => {
         });
 
         if (cellStatus.clear) {
-            setBoardDimension({ rows: 5, coloumns: 5 });
+            setBoardDimension({ rows: initialRows, coloumns: initialColoumns });
             setCellStatus((node) => ({
                 ...node,
                 isFillMode: false,
@@ -69,16 +72,16 @@ const Main = () => {
         let updatedGrid = grid.map((rowArr, i) =>
             rowArr.map((cell, j) => {
                 if (i === x && j === y && !grid[x][y].isWall) {
+                    setCellStatus((node) => ({ ...node, checked: true }));
                     return { ...cell, isFill: true };
                 }
                 return cell;
             })
         );
         setGrid(updatedGrid);
-        console.log(grid);
     };
 
-    const floodFill = (row, col) => {
+    const floodFill = (grid, row, col) => {
         let stack = [];
         stack.push({ x: row, y: col });
 
@@ -91,9 +94,18 @@ const Main = () => {
                 current.y >= 0 &&
                 current.y < boardDimension.coloumns
             ) {
-                console.log("filling", current.x, current.y);
-                handelFill(current.x, current.y);
-                console.log("filled", grid[current.x][current.y].isFill);
+                if (
+                    !grid[current.x][current.y].isFill &&
+                    !grid[current.x][current.y].isWall
+                ) {
+                    grid[current.x][current.y].isFill = true;
+                    handelFill(current.x, current.y);
+
+                    stack.push({ x: current.x + 1, y: current.y });
+                    stack.push({ x: current.x - 1, y: current.y });
+                    stack.push({ x: current.x, y: current.y + 1 });
+                    stack.push({ x: current.x, y: current.y - 1 });
+                }
             }
         }
     };
