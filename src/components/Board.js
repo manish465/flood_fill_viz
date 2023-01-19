@@ -1,12 +1,18 @@
 import Cell from "./Cell";
 
-const Board = ({ grid, handleClick }) => {
+const Board = ({ grid, insertWall, floodFill, cellStatus }) => {
     return (
         <div className="grid">
             {grid.map((rowArr, row) => (
                 <div key={row} className="row">
                     {rowArr.map((node, col) => (
-                        <Cell key={col} handleClick={handleClick} node={node} />
+                        <Cell
+                            key={col}
+                            insertWall={insertWall}
+                            node={node}
+                            floodFill={floodFill}
+                            cellStatus={cellStatus}
+                        />
                     ))}
                 </div>
             ))}

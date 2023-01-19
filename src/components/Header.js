@@ -4,7 +4,6 @@ const Header = ({
     handleColoumns,
     cellStatus,
     setCellStatus,
-    depthFirstSearch,
 }) => {
     return (
         <div id="header">
@@ -15,14 +14,6 @@ const Header = ({
             >
                 FLOOD FILL
             </h1>
-            <select
-                disabled={cellStatus.checked}
-                name="algorithm"
-                id="algorithm"
-            >
-                <option value="dfs">DFS</option>
-                <option value="bfs">BFS</option>
-            </select>
             <input
                 disabled={cellStatus.checked}
                 type="number"
@@ -49,17 +40,10 @@ const Header = ({
             </button>
             <button
                 onClick={() =>
-                    setCellStatus((cell) => ({ ...cell, clear: true }))
+                    setCellStatus((node) => ({ ...node, clear: true }))
                 }
             >
                 CLEAR BOARD
-            </button>
-            <button
-                onClick={() =>
-                    floodFill(cellStatus.fillPos.x, cellStatus.fillPos.y)
-                }
-            >
-                START
             </button>
         </div>
     );

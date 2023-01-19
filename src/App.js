@@ -11,7 +11,6 @@ const App = () => {
     const [cellStatus, setCellStatus] = useState({
         isFillMode: false,
         isFillChecked: false,
-        fillPos: { x: -1, y: -1 },
         checked: false,
         clear: false,
     });
@@ -62,23 +61,12 @@ const App = () => {
         return initialGrid;
     };
 
-    const handleClick = (row, col) => {
+    const insertWall = (row, col) => {
         const newGrid = grid.map((rowArr, i) =>
             rowArr.map((cell, j) => {
                 if (i === row && j === col) {
                     setCellStatus((node) => ({ ...node, checked: true }));
-                    if (cellStatus.isFillMode) {
-                        if (!cellStatus.isFillChecked) {
-                            setCellStatus((node) => ({
-                                ...node,
-                                isFillChecked: true,
-                                fillPos: { x: i, y: j },
-                            }));
-                            return { ...cell, isFill: true, isWall: false };
-                        }
-                    } else {
-                        return { ...cell, isFill: false, isWall: true };
-                    }
+                    return { ...cell, isFill: false, isWall: true };
                 }
                 return cell;
             })
@@ -100,20 +88,7 @@ const App = () => {
         }
     }, [boardDimension, cellStatus.clear]);
 
-    const handleFill = (x, y) => {
-        const newGrid = grid.map((rowArr, i) =>
-            rowArr.map((cell, j) => {
-                if (i === x && j === y) {
-                    return { ...cell, isFill: true };
-                }
-                return cell;
-            })
-        );
-
-        setGrid(newGrid);
-    };
-
-    const floodFill = (x, y) => {};
+    const floodFill = (row, col) => {};
 
     return (
         <main>
@@ -123,9 +98,13 @@ const App = () => {
                 handleColoumns={handleColoumns}
                 cellStatus={cellStatus}
                 setCellStatus={setCellStatus}
-                depthFirstSearch={depthFirstSearch}
             />
-            <Board grid={grid} handleClick={handleClick} />
+            <Board
+                grid={grid}
+                insertWall={insertWall}
+                floodFill={floodFill}
+                cellStatus={cellStatus}
+            />
         </main>
     );
 };
