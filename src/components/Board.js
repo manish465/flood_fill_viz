@@ -1,6 +1,12 @@
 import Cell from "./Cell";
 
-const Board = ({ grid, insertWall, floodFill, cellStatus }) => {
+const Board = ({
+    grid,
+    insertWall,
+    floodFill,
+    breadthFirstSearch,
+    cellStatus,
+}) => {
     return (
         <div className="grid">
             {grid.map((rowArr, row) => (
@@ -12,6 +18,7 @@ const Board = ({ grid, insertWall, floodFill, cellStatus }) => {
                             insertWall={insertWall}
                             node={node}
                             floodFill={floodFill}
+                            breadthFirstSearch={breadthFirstSearch}
                             cellStatus={cellStatus}
                         />
                     ))}

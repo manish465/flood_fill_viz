@@ -4,6 +4,7 @@ const Header = ({
     handleColoumns,
     cellStatus,
     setCellStatus,
+    setIsDfs,
 }) => {
     return (
         <div id="header">
@@ -14,10 +15,22 @@ const Header = ({
             >
                 FLOOD FILL
             </h1>
+            <select
+                name="algorithm"
+                id="algorithm"
+                disabled={cellStatus.checked || cellStatus.isFillMode}
+            >
+                <option value="dfs" onClick={() => setIsDfs(true)}>
+                    DFS
+                </option>
+                <option value="bfs" onClick={() => setIsDfs(false)}>
+                    BFS
+                </option>
+            </select>
             <form>
                 <label htmlFor="rows">Rows : </label>
                 <input
-                    disabled={cellStatus.checked}
+                    disabled={cellStatus.checked || cellStatus.isFillMode}
                     type="number"
                     name="rows"
                     id="rows"
@@ -28,7 +41,7 @@ const Header = ({
             <form>
                 <label htmlFor="coloumns">Coloumns : </label>
                 <input
-                    disabled={cellStatus.checked}
+                    disabled={cellStatus.checked || cellStatus.isFillMode}
                     type="number"
                     name="coloumns"
                     id="coloumns"

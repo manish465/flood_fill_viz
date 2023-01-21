@@ -7,6 +7,7 @@ const initialColoumns = 10;
 
 const Main = () => {
     const [grid, setGrid] = useState([]);
+    const [isDfs, setIsDfs] = useState(true);
     const [boardDimension, setBoardDimension] = useState({
         rows: initialRows,
         coloumns: initialColoumns,
@@ -78,10 +79,11 @@ const Main = () => {
                 return cell;
             })
         );
+        grid[x][y].isFill = true;
         setGrid(updatedGrid);
     };
 
-    const floodFill = (grid, row, col) => {
+    const depthFirstSearch = (grid, row, col) => {
         let stack = [];
         stack.push({ x: row, y: col });
 
@@ -98,13 +100,40 @@ const Main = () => {
                     !grid[current.x][current.y].isFill &&
                     !grid[current.x][current.y].isWall
                 ) {
-                    grid[current.x][current.y].isFill = true;
                     handelFill(current.x, current.y);
 
                     stack.push({ x: current.x + 1, y: current.y });
                     stack.push({ x: current.x - 1, y: current.y });
                     stack.push({ x: current.x, y: current.y + 1 });
                     stack.push({ x: current.x, y: current.y - 1 });
+                }
+            }
+        }
+    };
+
+    const breadthFirstSearch = (grid, row, col) => {
+        let queue = [];
+        queue.push({ x: row, y: col });
+
+        while (queue.length > 0) {
+            let current = queue.offer();
+
+            if (
+                current.x >= 0 &&
+                current.x < boardDimension.rows &&
+                current.y >= 0 &&
+                current.y < boardDimension.coloumns
+            ) {
+                if (
+                    !grid[current.x][current.y].isFill &&
+                    !grid[current.x][current.y].isWall
+                ) {
+                    handelFill(current.x, current.y);
+
+                    queue.push({ x: current.x + 1, y: current.y });
+                    queue.push({ x: current.x - 1, y: current.y });
+                    queue.push({ x: current.x, y: current.y + 1 });
+                    queue.push({ x: current.x, y: current.y - 1 });
                 }
             }
         }
@@ -118,11 +147,13 @@ const Main = () => {
                 handleColoumns={handleColoumns}
                 cellStatus={cellStatus}
                 setCellStatus={setCellStatus}
+                setIsDfs={setIsDfs}
             />
             <Board
                 grid={grid}
                 insertWall={insertWall}
-                floodFill={floodFill}
+                depthFirstSearch={depthFirstSearch}
+                floodFill={isDfs ? depthFirstSearch : breadthFirstSearch}
                 cellStatus={cellStatus}
             />
         </main>
