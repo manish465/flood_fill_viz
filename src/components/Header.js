@@ -36,6 +36,8 @@ const Header = ({
                     id="rows"
                     value={boardDimension.rows}
                     onChange={(e) => handleRows(e)}
+                    min={2}
+                    max={35}
                 />
             </form>
             <form>
@@ -47,6 +49,8 @@ const Header = ({
                     id="coloumns"
                     value={boardDimension.coloumns}
                     onChange={(e) => handleColoumns(e)}
+                    min={2}
+                    max={20}
                 />
             </form>
             <button
